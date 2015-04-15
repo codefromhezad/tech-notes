@@ -18,7 +18,6 @@ libvpx and libx264 encoders have to be installed.
 
 
 
-
 ## Extract each frame from a video
 
 Warning: This will extract *each* frame from the video. Eg: for a 25 FPS video that is 60 seconds long, this will generate 1500 jpg images.
@@ -29,6 +28,12 @@ The qscale:v option defines the quality of the extracted image. For jpg, it can 
 Recommended value seems to be in the range 2-5 for a good quality image.
 
 Source: [Stack Overflow](http://stackoverflow.com/questions/10225403/how-can-i-extract-a-good-quality-jpeg-image-from-an-h264-video-file-with-ffmpeg)
+
+
+## Get Video framerate
+
+    ffmpeg -i src.mp4 2>&1 | sed -n "s/.*, \(.*\) fp.*/\1/p"
+
 
 
 ## Get Video duration in int seconds
