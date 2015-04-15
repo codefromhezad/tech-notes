@@ -19,7 +19,9 @@ libvpx and libx264 encoders have to be installed.
 
 
 
-## Extract images from video
+## Extract each frame from a video
+
+Warning: This will extract *each* frame from the video. Eg: for a 25 FPS video that is 60 seconds long, this will generate 1500 jpg images.
 
 	ffmpeg -i src.mp4 -qscale:v 2 -f image2 -c:v mjpeg output-%d.jpg
 
