@@ -29,3 +29,12 @@ The qscale:v option defines the quality of the extracted image. For jpg, it can 
 Recommended value seems to be in the range 2-5 for a good quality image.
 
 Source: [Stack Overflow](http://stackoverflow.com/questions/10225403/how-can-i-extract-a-good-quality-jpeg-image-from-an-h264-video-file-with-ffmpeg)
+
+
+## Get Video duration in int seconds
+
+    float_vid_seconds=$(ffprobe -i src.mp4 -show_format -v quiet | sed -n 's/duration=//p')
+    vid_seconds=${float_vid_seconds%.*}
+
+vid_seconds will contain the duration.
+
