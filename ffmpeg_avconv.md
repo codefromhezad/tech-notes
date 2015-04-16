@@ -11,7 +11,7 @@ libvpx and libx264 encoders have to be installed.
 
 ```bash
 	ffmpeg -i src.mp4 -c:v libvpx -preset slow -s 1024x576 -qmin 0 -qmax 50 -an -b:v 400K -pass 1 output.webm
-```
+``
 
 ### Encode to MP4
 
@@ -100,4 +100,4 @@ Copy/Paste in a file named extract-frames.sh (you can name it the way you want b
 
     # Actual extracting
     ffmpeg -i $SOURCE_FILENAME -vf fps=$vid_fps_string -qscale:v 2 -f image2 -c:v mjpeg $DIST_FOLDER/$SOURCE_BASENAME-frame-%03d.jpg
-``
+```
