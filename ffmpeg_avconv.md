@@ -45,9 +45,9 @@ vid_seconds will contain the duration.
 
 
 
-## Script to generate a fixed number of "equidistant" frames from a video
+## Bash script to generate a fixed number of "equidistant" frames from a video
 
-Copy/Paste in a bash script file (we'll call it extract-frames.sh for the usage exemple)
+Copy/Paste in a file named extract-frames.sh (you can name it the way you want but you'll have to change the Usage part to mirror the name used)
 
     Usage:
     ./extract-frames.sh <source-video-file> [<num_frames> <dest_folder>]
@@ -57,6 +57,7 @@ Copy/Paste in a bash script file (we'll call it extract-frames.sh for the usage 
 
 ### Actual Script:
 
+```bash
     #!/bin/bash
 
     # Set Default Opts Values
@@ -92,3 +93,4 @@ Copy/Paste in a bash script file (we'll call it extract-frames.sh for the usage 
 
     # Actual extracting
     ffmpeg -i $SOURCE_FILENAME -vf fps=$vid_fps_string -qscale:v 2 -f image2 -c:v mjpeg $DIST_FOLDER/$SOURCE_BASENAME-frame-%03d.jpg
+``
