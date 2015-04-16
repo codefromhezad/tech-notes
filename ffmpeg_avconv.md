@@ -43,3 +43,52 @@ Source: [Stack Overflow](http://stackoverflow.com/questions/10225403/how-can-i-e
 
 vid_seconds will contain the duration.
 
+
+
+## Script to generate a fixed number of "equidistant" frames from a video
+
+Copy/Paste in a bash script file (we'll call it extract-frames.sh for the usage exemple)
+
+    Usage:
+    ./extract-frames.sh <source-video-file> [<num_frames> <dest_folder>]
+        num_frames:  Number of frames to extract (default = 30)
+        dest_folder: Destination folder path (default = "./dist")
+
+
+### Actual Script:
+
+    #!/bin/bash
+
+    # Set Default Opts Values
+    readonly DEFAULT_NUM_EXTRACT_FRAMES=30
+    readonly DEFAULT_DIST_FOLDER="./dist"
+
+    # Check mandatory first argument is passed
+    if [[ $# -eq 0 ]] ; then
+        echo 'Error: Not enough arguments.'
+        echo
+        echo 'Usage:'
+        echo './extract-frames.sh <source-video-file> [<num_frames> <dest_folder>]'
+        echo '  num_frames:  Number of frames to extract (default = '$DEFAULT_NUM_EXTRACT_FRAMES')'
+        echo '  dest_folder: Destination folder path (default = "'$DEFAULT_DIST_FOLDER'")'
+        exit 0
+    fi
+
+    # Retrieve the source file name
+    readonly SOURCE_FILENAME="$1"
+    readonly SOURCE_BASENAME=$(basename $SOURCE_FILENAME)
+
+    readonly NUM_EXTRACT_FRAMES=${2:-30}
+    readonly DIST_FOLDER=${3:-"./dist"}
+
+    # Get Video Duration in seconds and build string "num_frames/num_seconds" 
+    # to pass as an argument for the ffmpeg -fps option
+    float_vid_seconds=$(ffprobe -i $SOURCE_FILENAME -show_format -v quiet | sed -n 's/duration=//p')
+    vid_seconds=${float_vid_seconds%.*}
+    vid_fps_string=$NUM_EXTRACT_FRAMES"/"$vid_seconds
+
+    # Create tmp dist folder
+    mkdir -p $DIST_FOLDER
+
+    # Actual extracting
+    ffmpeg -i $SOURCE_FILENAME -vf fps=$vid_fps_string -qscale:v 2 -f image2 -c:v mjpeg $DIST_FOLDER/$SOURCE_BASENAME-frame-%03d.jpg
